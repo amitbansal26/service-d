@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-d
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-d
+  template:
+    metadata:
+      name: service-d
+      labels:
+        app: service-d
+        version: v1
+    spec:
+      containers:
+        - name: service-d
+          image: amitb26j/service-d
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: VERSION
+              value: "v1"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-d
+  labels:
+    app: service-d
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      nodePort: 30080
+      name: http
+  selector:
+    app: service-d

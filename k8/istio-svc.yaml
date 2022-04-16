@@ -1,0 +1,25 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: service-d-destination
+spec:
+  host: service-d
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: service-d-route
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - ingress-gateway-configuration
+  http:
+  - route:
+    - destination:
+        host: service-d
+        subset: v1

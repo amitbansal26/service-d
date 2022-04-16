@@ -1,0 +1,17 @@
+apiVersion: skaffold/v2beta28
+kind: Config
+metadata:
+  name: service-d
+build:
+  artifacts:
+  - image: amitb26j/service-d
+    jib:
+      project: com.serviced:service-d
+  tagPolicy:
+    gitCommit: { }
+deploy:
+  kubectl:
+    manifests:
+    - k8/deployment.yaml
+    - k8/gateway.yaml
+    - k8/istio-svc.yaml
